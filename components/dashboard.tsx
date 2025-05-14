@@ -26,7 +26,7 @@ export default function Dashboard({ username }: DashboardProps) {
   const [monsterImg, setMonsterImg] = useState<string | null>(null)
   const [exp, setExp] = useState(0)
   const router = useRouter()
-  const apiBaseUrl = "http://localhost:3001" // URL base da API
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001" // URL base da API
 
   useEffect(() => {
     const fetchUserData = async () => {
