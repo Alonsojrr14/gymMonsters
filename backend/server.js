@@ -5,6 +5,7 @@ const multer = require('multer');
 const path = require('path');
 const mongoose = require('mongoose');
 const User = require('./models/User');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const PORT = 3001;
@@ -76,13 +77,35 @@ function tryEvolveMonster(usuario) {
 // Rota de login
 app.post('/login', async (req, res) => {
   const { user, password } = req.body;
-  const usuario = await User.findOne({ user, password });
-  if (usuario) {
+  const usuario = await User.findOne({ user });
+  if (!usuario) {
+    return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
+  }
+  if (usuario.password.length < 30) { // senha provavelmente em texto puro
+    if (usuario.password === password) {
+      // Atualiza para hash
+      const saltRounds = 10;
+      const hash = await bcrypt.hash(password, saltRounds);
+      usuario.password = hash;
+      await usuario.save();
+      // Login continua normalmente
+      tryEvolveMonster(usuario);
+      await usuario.save();
+      return res.json({ success: true, monster: usuario.monster, monsterImg: usuario.monsterImg });
+    } else {
+      // Senha errada
+      return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
+    }
+  } else {
+    // Senha já está em hash, faz o compare normalmente
+    const senhaCorreta = await bcrypt.compare(password, usuario.password);
+    if (!senhaCorreta) {
+      return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
+    }
     tryEvolveMonster(usuario);
     await usuario.save();
     return res.json({ success: true, monster: usuario.monster, monsterImg: usuario.monsterImg });
   }
-  res.status(401).json({ success: false, message: 'Credenciais inválidas' });
 });
 
 // Rota para escolher o GymMonster
@@ -153,9 +176,12 @@ app.post('/register', async (req, res) => {
   if (usuarioExistente) {
     return res.status(409).json({ success: false, message: 'Usuário já existe' });
   }
+  // Hash da senha antes de salvar
+  const saltRounds = 10;
+  const hash = await bcrypt.hash(password, saltRounds);
   const novoUsuario = new User({
     user,
-    password,
+    password: hash,
     monster: "egg",
     monsterImg: "/gymMonsters/egg.gif",
     exp: 0,
