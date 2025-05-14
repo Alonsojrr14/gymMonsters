@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const WorkoutSchema = new mongoose.Schema({
+  name: { type: String, required: false },
   duration: Number,
   calories: Number,
   photo: String,
