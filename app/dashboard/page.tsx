@@ -1,6 +1,6 @@
-import dynamic from "next/dynamic"
+"use client"
 
-const DashboardComponent = dynamic(() => import("./DashboardComponent"), { ssr: false })
+import DashboardComponent from "./DashboardComponent"
 
 export default function Page() {
   return <DashboardComponent />
