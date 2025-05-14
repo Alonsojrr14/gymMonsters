@@ -9,6 +9,7 @@ export default function AddWorkoutPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [username, setUsername] = useState("")
   const router = useRouter()
+  const [name, setName] = useState("")
 
   useEffect(() => {
     // Verificar se o usuário está logado
@@ -59,6 +60,14 @@ export default function AddWorkoutPage() {
         >
           ← Voltar
         </button>
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          placeholder="Nome do treino (ex: Peito e Tríceps)"
+          required
+        />
         <AddWorkoutForm onWorkoutAdded={handleWorkoutAdded} />
       </div>
     </div>
