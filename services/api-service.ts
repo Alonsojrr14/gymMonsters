@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:3001"
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Interface para os dados de login
 interface LoginData {
@@ -48,7 +48,7 @@ export const ApiService = {
   // Login de usuário
   login: async (data: LoginData): Promise<{ success: boolean; monster?: string; monsterImg?: string }> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +70,7 @@ export const ApiService = {
   // Registro de usuário
   register: async (data: RegisterData): Promise<{ success: boolean }> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/register`, {
+      const response = await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export const ApiService = {
         formData.append("photo", data.photo)
       }
 
-      const response = await fetch(`${API_BASE_URL}/add-workout`, {
+      const response = await fetch(`${API_URL}/add-workout`, {
         method: "POST",
         body: formData,
       })
@@ -129,7 +129,7 @@ export const ApiService = {
   // Obter dados do usuário
   getUserData: async (user: string): Promise<UserData> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/get-user?user=${encodeURIComponent(user)}`)
+      const response = await fetch(`${API_URL}/get-user?user=${encodeURIComponent(user)}`)
 
       if (!response.ok) {
         throw new Error("Falha ao obter dados do usuário")
