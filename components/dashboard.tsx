@@ -17,6 +17,7 @@ interface Workout {
   photo: string | null
   exp: number
   date: string
+  name?: string
 }
 
 export default function Dashboard({ username }: DashboardProps) {
@@ -129,10 +130,10 @@ export default function Dashboard({ username }: DashboardProps) {
 
             {workouts.length > 0 ? (
               <div className={styles.workoutsGrid}>
-                {workouts.map((workout, index) => (
+                {workouts.slice().reverse().map((workout, index) => (
                   <div key={index} className={styles.workoutCard}>
                     <div className={styles.workoutHeader}>
-                      <h3>Treino {index + 1}</h3>
+                      <h3>{workout.name ? workout.name : `Treino ${index + 1}`}</h3>
                       <span className={styles.workoutDate}>{formatDate(workout.date)}</span>
                     </div>
                     <div className={styles.workoutBody}>
