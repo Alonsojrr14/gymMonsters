@@ -123,7 +123,7 @@ app.post('/choose-monster', async (req, res) => {
 
 // Rota para adicionar treino
 app.post('/add-workout', upload.single('photo'), async (req, res) => {
-  const { user, duration, calories } = req.body;
+  const { user, duration, calories, name } = req.body;
   const usuario = await User.findOne({ user });
   if (!usuario) return res.status(404).json({ success: false });
   if (!duration) return res.status(400).json({ success: false, message: 'Duração obrigatória' });
@@ -139,6 +139,7 @@ app.post('/add-workout', upload.single('photo'), async (req, res) => {
   usuario.exp += exp;
   tryEvolveMonster(usuario);
   const workout = {
+    name: name || "",
     duration: durationMin,
     calories: caloriesNum,
     photo: req.file ? `/uploads/${req.file.filename}` : null,
