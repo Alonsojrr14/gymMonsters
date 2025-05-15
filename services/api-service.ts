@@ -6,7 +6,7 @@ interface LoginData {
   password: string
 }
 
-// Interface para os dados de registro
+// Interface para os dados de registroo
 interface RegisterData {
   user: string
   password: string
