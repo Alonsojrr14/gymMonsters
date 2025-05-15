@@ -14,6 +14,7 @@ interface RegisterData {
 
 // Interface para os dados de treino
 interface WorkoutData {
+  name: string
   user: string
   duration: number
   calories: number
