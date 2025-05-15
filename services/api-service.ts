@@ -29,6 +29,7 @@ interface GymMonster {
 
 // Interface para o treino
 interface Workout {
+  name: string
   duration: number
   calories: number
   photo: string | null
