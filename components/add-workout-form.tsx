@@ -80,6 +80,7 @@ export default function AddWorkoutForm({ onWorkoutAdded }: AddWorkoutFormProps) 
       const caloriesNumber = Number.parseInt(calories)
 
       const response = await ApiService.addWorkout({
+        name: string,
         user: username,
         duration: durationMinutes,
         calories: caloriesNumber,
