@@ -14,7 +14,6 @@ interface RegisterData {
 
 // Interface para os dados de treino
 interface WorkoutData {
-  name: string
   user: string
   duration: number
   calories: number
@@ -29,7 +28,6 @@ interface GymMonster {
 
 // Interface para o treino
 interface Workout {
-  name: string
   duration: number
   calories: number
   photo: string | null
